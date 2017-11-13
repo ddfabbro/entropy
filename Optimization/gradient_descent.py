@@ -8,7 +8,7 @@ Created on Mon Nov 13 19:58:59 2017
 import numpy as np
 import matplotlib.pyplot as plt
 
-class Optimization():
+class MathFunction():
    def set_function(self,function):
       """
       In: function def():
@@ -58,25 +58,21 @@ class Optimization():
          X = np.copy(X1)
       return optimization_process
 
-f = Optimization()
+f = MathFunction()
 f.set_function(f.venkataraman)
-X0 = np.array([.5,.5])
-optimizer_log = f.gradient_descent(X0,.33,10)
+X0 = np.array([.5,.5]) #initial guess
+optimizer_results = f.gradient_descent(X0,.33,10)
 
-"""
-PLOTTTING
-"""
-
-x1 = np.linspace(-5, 5, 500)
-x2 = np.linspace(-5, 5, 500)
-x1, x2 = np.meshgrid(x1, x2)
-X = np.array([x1,x2])
+#PLOTTING
+x1 = np.linspace(-5, 5, 100)
+x2 = np.linspace(-5, 5, 100)
+X = np.array(np.meshgrid(x1, x2))
 z = f.venkataraman(X)
 
 plt.contour(x1,x2,z,np.arange(-3.3, 3.5, .5).tolist(), cmap='jet')
 
-for i,solution in enumerate(optimizer_log['solution']):
-   plt.scatter(solution[0],solution[1],c=[0,0,0],zorder=1000)
+for i,solution in enumerate(optimizer_results['solution']):
+   plt.scatter(solution[0],solution[1],c=[0,0,0],zorder=1e+3)
    plt.text(solution[0],solution[1],i,va='bottom',fontsize=8)
 
 plt.savefig('gradient_descent.png')
