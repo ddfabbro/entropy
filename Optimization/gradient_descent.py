@@ -26,8 +26,25 @@ class MathFunction():
       """
       In: numpy.array([x1,x2,...,xn])
       Out: float f(x1,x2,...,xn)
+      
+      Source: Venkataraman, P. (2009). Applied optimization with MATLAB programming.
       """
       return 3*(np.sin(0.5+0.25*X[0]*X[1]))*np.cos(X[0])
+   
+   def branin(self,X):
+      """
+      In: numpy.array([x1,x2,...,xn])
+      Out: float f(x1,x2,...,xn)
+      
+      Source: https://www.sfu.ca/~ssurjano/branin.html
+      """
+      a=1.
+      b=5.1/(4.*np.pi**2.)
+      c=5./np.pi
+      r=6.
+      s=10.
+      t=1./(8.*np.pi)
+      return a*(X[1]-b*X[0]**2+c*X[0]-r)**2+s*(1-t)*np.cos(X[0])+s
    
    def gradient(self,X):
       """
@@ -37,19 +54,18 @@ class MathFunction():
       h = 1e-5
       derivative_array = np.empty(X.shape[0])
       for i in range(X.shape[0]):
-         Xi = np.copy(X).astype(np.float)
-         Xj = np.copy(X).astype(np.float)
-         Xi[i]+=h
-         Xj[i]-=h
-         derivative_array[i] = (self.function(Xi)-self.function(Xj))/(2*h)
+         X_upper = np.copy(X).astype(np.float)
+         X_lower = np.copy(X).astype(np.float)
+         X_upper[i]+=h
+         X_lower[i]-=h
+         derivative_array[i] = (self.function(X_upper)-self.function(X_lower))/(2*h)
       return derivative_array
    
-   def gradient_descent(self,X0,a,N):
+   def gradient_descent(self,X,a,N):
       """
       In: numpy.array([x1_0,x2_0,...,xn_0]), float(learning_rate), int(iterations)
       Out: dict{'solution': [X_0,X_1,...,X_n], 'output': [f(X_0),f(X_1),...,f(X_n)]}
       """
-      X = np.copy(X0)
       optimization_process = {'solution': [], 'output': []}
       for i in range(N):
          optimization_process['solution'].append(X)
@@ -64,15 +80,18 @@ X0 = np.array([.5,.5]) #initial guess
 optimizer_results = f.gradient_descent(X0,.33,10)
 
 #PLOTTING
-x1 = np.linspace(-5, 5, 100)
-x2 = np.linspace(-5, 5, 100)
+x1 = np.linspace(-6, 6, 100)
+x2 = np.linspace(-6, 6, 100)
 X = np.array(np.meshgrid(x1, x2))
 z = f.venkataraman(X)
 
-plt.contour(x1,x2,z,np.arange(-3.3, 3.5, .5).tolist(), cmap='jet')
+plt.contour(x1,x2,z,np.arange(-3.3, 3.5, .25).tolist(),cmap='jet')
 
 for i,solution in enumerate(optimizer_results['solution']):
    plt.scatter(solution[0],solution[1],c=[0,0,0],zorder=1e+3)
    plt.text(solution[0],solution[1],i,va='bottom',fontsize=8)
+
+plt.xlim([-6,6])
+plt.ylim([-6,6])
 
 plt.savefig('gradient_descent.png')
