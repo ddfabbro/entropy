@@ -1,17 +1,24 @@
+#!/usr/bin/env python2
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Oct 24 09:39:41 2017
+
+@author: davi
+"""
 import numpy as np
 
 def information_xy(x,y,bins):
    """
    Calculates:
-   ---Marginal Entropy H(x)
-   ---Marginal Entropy H(y)
-   ---Joint Entropy H(x,y)
-   ---Mutual Information I(x,y)
+   ---Marginal Entropy H(X)
+   ---Marginal Entropy H(Y)
+   ---Joint Entropy H(X,Y)
+   ---Mutual Information I(X,Y)
    ---Conditional Entropy H(X|Y)
    ---Conditional Entropy H(Y|X)
    
    In: numpy.array (1D), numpy.array(1D), int
-   Out: (float, float, ... , float) 
+   Out: (float, float, float, float, float, float) 
    """
    px = np.histogram(x,bins)[0]/float(np.sum(np.histogram(x,bins)[0]))
    py = np.histogram(y,bins)[0]/float(np.sum(np.histogram(y,bins)[0]))
