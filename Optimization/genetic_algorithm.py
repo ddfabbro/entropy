@@ -7,7 +7,8 @@ Created on Tue Nov 14 13:47:10 2017
 """
 
 import numpy as np 
-import random
+#import random
+import matplotlib.pyplot as plt
 from gradient_descent import MathFunction
  
 class EvolutionaryAlgorithm():
@@ -40,16 +41,22 @@ class EvolutionaryAlgorithm():
          self.population_fitness_
       except:
          self.population_fitness_ = self.population_fitness(population)
+         
       if np.min(self.population_fitness_) < 0: 
          normalized_fitness = self.population_fitness_ + abs(np.min(self.population_fitness_))
       else:
          normalized_fitness = self.population_fitness_ - abs(np.min(self.population_fitness_))
-   
-      roulette_ = np.cumsum(normalized_fitness/float(np.sum(normalized_fitness)))
-      pocket = np.random.rand()
-      for arrow, fitness in enumerate(roulette_):
-         if pocket <= fitness:
-            return population[arrow]
+
+      if np.sum(normalized_fitness) == 0:
+         return population[np.random.choice(len(population))]
+         
+      roulette_array = np.cumsum(normalized_fitness/float(np.sum(normalized_fitness)))
+      seed = np.random.rand()
+      for i, fitness in enumerate(roulette_array):
+         if seed <= fitness:
+            break
+      
+      return population[i]
    
    def population_fitness(self,population):
       return np.array([self.signal*self.fitness(X) for X in population])
@@ -83,7 +90,7 @@ class EvolutionaryAlgorithm():
                offspring = self.crossover(parents)
                parents_list.append(offspring)
             else:
-               parents_list.append(random.choice(parents))
+               parents_list.append(parents[np.random.choice(len(parents))])
          
          #Mutation
          for individual in parents_list:
@@ -96,14 +103,22 @@ class EvolutionaryAlgorithm():
    
 if __name__ == "__main__":   
    
-   function = MathFunction()
-   ecosystem = EvolutionaryAlgorithm('max',function.venkataraman,20,2,[-5,5])
-   optimizer_results =ecosystem.evolve(.8,.3,10)
+   np.random.seed(0)
    
-   """
-   population = ecosystem.new_population()
-   population_fitness = ecosystem.population_fitness(population)
-   best = ecosystem.best(population)
-   parents = np.array([ecosystem.roulette(population),ecosystem.roulette(population)])
-   offspring = ecosystem.crossover(parents)
-   """
+   function = MathFunction()
+   ecosystem = EvolutionaryAlgorithm('min',function.venkataraman,20,2,[-5,5])
+   optimizer_results =ecosystem.evolve(.8,.1,10)
+   
+   ### PLOTTING
+   x1 = np.linspace(-5, 5, 100)
+   x2 = np.linspace(-5, 5, 100)
+   X = np.array(np.meshgrid(x1, x2))
+   z = function.venkataraman(X)
+   
+   f, axarr = plt.subplots(10,1,figsize=(4,30))
+   for i, generation in enumerate(optimizer_results['solutions']):
+      axarr[i].contour(x1,x2,z,np.arange(-3.3, 3.5, .25).tolist(),cmap='jet')
+      axarr[i].scatter(generation[:,0],generation[:,1],c=[0,0,0],zorder=1e+3)
+   
+   plt.savefig('evolution.png')
+   

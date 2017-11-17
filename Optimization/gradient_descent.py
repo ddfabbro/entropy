@@ -82,8 +82,8 @@ if __name__ == "__main__":
    optimizer_results = optimizer.search(X0,.33,10)
    
    #PLOTTING
-   x1 = np.linspace(-6, 6, 100)
-   x2 = np.linspace(-6, 6, 100)
+   x1 = np.linspace(-5, 5, 100)
+   x2 = np.linspace(-5, 5, 100)
    X = np.array(np.meshgrid(x1, x2))
    z = function.venkataraman(X)
    
@@ -92,8 +92,5 @@ if __name__ == "__main__":
    for i,solution in enumerate(optimizer_results['solution']):
       plt.scatter(solution[0],solution[1],c=[0,0,0],zorder=1e+3)
       plt.text(solution[0],solution[1],i,va='bottom',fontsize=8)
-   
-   plt.xlim([-6,6])
-   plt.ylim([-6,6])
    
    plt.savefig('gradient_descent.png')
