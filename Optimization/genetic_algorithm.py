@@ -7,9 +7,9 @@ Created on Tue Nov 14 13:47:10 2017
 """
 
 import numpy as np 
-#import random
 import matplotlib.pyplot as plt
 from gradient_descent import MathFunction
+import os
  
 class EvolutionaryAlgorithm():
     
@@ -109,16 +109,18 @@ if __name__ == "__main__":
    ecosystem = EvolutionaryAlgorithm('min',function.venkataraman,20,2,[-5,5])
    optimizer_results =ecosystem.evolve(.8,.1,10)
    
-   ### PLOTTING
+   ###PLOTTING
    x1 = np.linspace(-5, 5, 100)
    x2 = np.linspace(-5, 5, 100)
    X = np.array(np.meshgrid(x1, x2))
    z = function.venkataraman(X)
    
-   f, axarr = plt.subplots(10,1,figsize=(4,30))
    for i, generation in enumerate(optimizer_results['solutions']):
-      axarr[i].contour(x1,x2,z,np.arange(-3.3, 3.5, .25).tolist(),cmap='jet')
-      axarr[i].scatter(generation[:,0],generation[:,1],c=[0,0,0],zorder=1e+3)
+      plt.figure()
+      plt.contour(x1,x2,z,np.arange(-3.3, 3.5, .25).tolist(),cmap='jet')
+      plt.scatter(generation[:,0],generation[:,1],c=[0,0,0],zorder=1e+3)
+      plt.savefig('generation'+str(i)+'.jpg')
    
-   plt.savefig('evolution.png')
-   
+   #Create .gif
+   os.system('convert -delay 20 -loop 0 *.jpg evolution.gif')
+   os.system('rm *.jpg')
