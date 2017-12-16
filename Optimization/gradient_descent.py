@@ -54,10 +54,8 @@ class GradientDescent():
       h = 1e-5
       derivative_array = np.empty(X.shape[0])
       for i in range(X.shape[0]):
-         X_upper = np.copy(X).astype(np.float)
-         X_lower = np.copy(X).astype(np.float)
-         X_upper[i]+=h
-         X_lower[i]-=h
+         X_upper = np.copy(X).astype(np.float); X_upper[i]+=h
+         X_lower = np.copy(X).astype(np.float); X_lower[i]-=h
          derivative_array[i] = (self.function(X_upper)-self.function(X_lower))/(2*h)
       return derivative_array
    
