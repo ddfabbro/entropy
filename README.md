@@ -1,5 +1,5 @@
 # entropy
-A Python module that calculates information metrics according to Shannon's information theory.
+A Python module that calculates information metrics according to Shannon's information theory \[1\].
 
 ## References
 
