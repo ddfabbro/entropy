@@ -1,2 +1,2 @@
-# orphan_scripts
-Scripts that don't belong to any specific project.
+# entropy
+A Python module that calculates information metrics according to Shannon.
