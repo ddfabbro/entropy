@@ -6,8 +6,7 @@ Created on Tue Dec 26 20:00:45 2017
 @author: davi
 """
 import numpy as np
-import sys
-sys.path.append('../')
+import sys; sys.path.append('../')
 from entropy.information import *
 
 x = np.random.normal(0, 1, 1000)
