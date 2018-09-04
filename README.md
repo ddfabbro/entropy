@@ -8,18 +8,18 @@ There is no installation for this package.
 To use it, simply clone this repository by
 
 ```
-git clone https://github.com/ddfabbro/entropy.git && cd entropy
+git clone https://github.com/ddfabbro/entropy.git
 ```
 
 and add the root directory to your `PYTHONPATH` environment variable
 
 ```
-export PYTHONPATH=$PYTHONPATH:$(pwd)
+export PYTHONPATH=$PYTHONPATH:$(pwd)/entropy
 ```
 
 ## Usage
 
-Usage can be found in examples directory
+Usage can be found in `examples/`
 
 ## References
 
