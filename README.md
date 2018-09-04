@@ -1,5 +1,25 @@
 # entropy
-A Python module that calculates information metrics according to Shannon's information theory \[1\].
+A minimal Python module that calculates information metrics according to Shannon's information theory \[1\].
+
+## Installation
+
+There is no installation for this package.
+
+To use it, simply clone this repository by
+
+```
+git clone https://github.com/ddfabbro/entropy.git && cd entropy
+```
+
+and add the root directory to your `PYTHONPATH` environment variable
+
+```
+export PYTHONPATH=$PYTHONPATH:$(pwd)
+```
+
+## Usage
+
+Usage can be found in examples directory
 
 ## References
 
